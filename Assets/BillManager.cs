@@ -17,6 +17,8 @@ public class BillManager : MonoBehaviour
     void Start()
     {
         manager = this;
+        GameEvents.instance.OnTaxDay += TaxDay;
+
         PopulateBills();
     }
 
@@ -28,9 +30,9 @@ public class BillManager : MonoBehaviour
 
     public void UpgradeBill()
     {
-        if (MoneyManager.manager.money >= upgradeCost[currentBill + 1])
+        if (bills.Count - 1 > currentBill)
         {
-            if (bills.Count > currentBill)
+            if (MoneyManager.manager.money >= upgradeCost[currentBill + 1])
             {
                 currentBill++;
                 MoneyManager.manager.money -= cost;
@@ -42,18 +44,52 @@ public class BillManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Max bill demonination reached!");
+                Debug.Log("Not enough money!");
             }
         }
         else
         {
-            Debug.Log("Not enough money!");
+            Debug.Log("Max bill demonination reached!");
+        }
+    }
+
+    public void BuyBlackMarket()
+    {
+        if (!MoneyManager.manager.blackMarketPurchased)
+        {
+            if (MoneyManager.manager.money >= 100000)
+            {
+                AddDarkMoney((MoneyManager.manager.money - 100000) * 2);
+
+                MoneyManager.manager.blackMarketPurchased = true;
+                MoneyManager.manager.money -= 100000;
+
+                Debug.Log("Black Market Investments purchased.");
+            }
+            else
+            {
+                Debug.Log("Not enough money!");
+            }
+        }
+        else
+        {
+            Debug.Log("Already purchased Black Market Investments!");
         }
     }
 
     public void AddMoney()
     {
         MoneyManager.manager.AddMoney(bills[currentBill]);
+    }
+
+    public void AddDarkMoney(float amount)
+    {
+        MoneyManager.manager.AddDarkMoney(amount);
+    }
+
+    public void TaxDay()
+    {
+        currentBill = 12;
     }
 
     void PopulateBills()
@@ -69,6 +105,9 @@ public class BillManager : MonoBehaviour
         bills.Add(9, 1000);
         bills.Add(10, 5000);
         bills.Add(11, 10000);
+
+        // Only for tax day
+        bills.Add(12, 0);
 
         upgradeCost.Add(1, 0);
         upgradeCost.Add(2, 25);

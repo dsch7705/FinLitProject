@@ -38,7 +38,7 @@ public class DateManager : MonoBehaviour
         { 12, "December" },
     };
 
-    public (int Month, int Day, int Year) currentDate = (4, 16, 2022 );
+    public (int Month, int Day, int Year) currentDate = (4, 10, 2023);
     public (int, int, int) TAX_DAY = (4, 15, 2023);
 
     // Start is called before the first frame update
@@ -78,6 +78,8 @@ public class DateManager : MonoBehaviour
         if (currentDate == TAX_DAY)
         {
             Debug.Log("Tax Day!");
+
+            GameEvents.instance.TaxDay();
             CancelInvoke();
         }
 

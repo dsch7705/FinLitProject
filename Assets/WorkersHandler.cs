@@ -52,6 +52,6 @@ public class WorkersHandler : MonoBehaviour
 
     void Work()
     {
-        MoneyManager.manager.money += (BillManager.manager.bills[BillManager.manager.currentBill]);
+        MoneyManager.manager.AddMoney(BillManager.manager.bills[BillManager.manager.currentBill]);
     }
 }

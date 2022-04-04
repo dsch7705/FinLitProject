@@ -38,7 +38,7 @@ public class DateManager : MonoBehaviour
         { 12, "December" },
     };
 
-    public (int Month, int Day, int Year) currentDate = (4, 10, 2023);
+    public (int Month, int Day, int Year) currentDate = (4, 1, 2023);
     public (int, int, int) TAX_DAY = (4, 15, 2023);
 
     // Start is called before the first frame update

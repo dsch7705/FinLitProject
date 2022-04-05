@@ -12,6 +12,15 @@ public class GameEvents : MonoBehaviour
         instance = this;    
     }
 
+    public event Action OnGameEventsReady;
+    public void GameEventsReady()
+    {
+        if (OnGameEventsReady != null)
+        {
+            OnGameEventsReady();
+        }
+    }
+
     public event Action OnTaxDay;
     public void TaxDay()
     {
@@ -19,6 +28,15 @@ public class GameEvents : MonoBehaviour
         {
             OnTaxDay();
 
+        }
+    }
+
+    public event Action OnTaxMenuOpened;
+    public void TaxMenuOpened()
+    {
+        if (OnTaxMenuOpened != null)
+        {
+            OnTaxMenuOpened();
         }
     }
 }

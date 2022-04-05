@@ -1,36 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class TaxDayLerp : MonoBehaviour
+public class MundyLerp : MonoBehaviour
 {
-    public static TaxDayLerp instance;
-
     public float smooth;
-    public bool lerpIn = false;
 
     Vector3 startPos;
     Vector3 midPos;
 
-    public RectTransform panel;
+    public bool mundyMove = false;
 
-    // Start is called before the first frame update
     void Start()
     {
-        instance = this;
-
-        panel = GetComponent<RectTransform>();
+        midPos = new Vector3(transform.position.x, Screen.height / 3 - Screen.height / 6, 0.0f);
         startPos = transform.position;
-        midPos = new Vector3(transform.position.x, Screen.height - Screen.height / 2, 0.0f);
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
-        if (lerpIn)
+        if (mundyMove)
         {
             transform.position = Vector3.Lerp(transform.position, midPos, Time.deltaTime * smooth);
-        } 
+        }
         else
         {
             transform.position = Vector3.Lerp(transform.position, startPos, Time.deltaTime * smooth);

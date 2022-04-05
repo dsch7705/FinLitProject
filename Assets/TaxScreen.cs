@@ -15,13 +15,23 @@ public class TaxScreen : MonoBehaviour
 
     public void OpenMenu()
     {
-        taxScreen.SetActive(true);
-        gameScreen.SetActive(false);
+        StartCoroutine("Menu");
     }
 
     IEnumerator AddToGameEvents()
     {
         yield return new WaitForSeconds(0.5f);
         GameEvents.instance.OnTaxDay += OpenMenu;
+    }
+
+    IEnumerator Menu()
+    {
+        Debug.Log("YOOOO");
+        TaxDayLerp.instance.lerpIn = true;
+        yield return new WaitForSeconds(2.0f);
+        TaxDayLerp.instance.lerpIn = false;
+        yield return new WaitForSeconds(1.0f);
+        taxScreen.SetActive(true);
+        gameScreen.SetActive(false);
     }
 }

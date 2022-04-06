@@ -13,6 +13,9 @@ public class W2Handler : MonoBehaviour
     public Text medWages;
     public Text medTax;
 
+    public float taxPercentage;
+
+    public bool fraudDetected = false;
 
     void Start()
     {
@@ -27,18 +30,74 @@ public class W2Handler : MonoBehaviour
 
     private void OnEnable()
     {
+        SetTaxBracket();
         UpdateW2();
+    }
+
+    public void SetTaxBracket()
+    {
+        float money = MoneyManager.manager.grossMoney;
+        switch (money)
+        {
+            case var _ when money <= 9950:
+                taxPercentage = 0.10f;
+                break;
+            case var _ when money <= 40525:
+                taxPercentage = 0.12f;
+                break;
+            case var _ when money <= 86375:
+                taxPercentage = 0.22f;
+                break;
+            case var _ when money <= 164925:
+                taxPercentage = 0.24f;
+                break;
+            case var _ when money <= 209425:
+                taxPercentage = 0.32f;
+                break;
+            case var _ when money <= 523600:
+                taxPercentage = 0.35f;
+                break;
+            case var _ when money > 523600:
+                taxPercentage = 0.37f;
+                break;
+        }
     }
 
     public void UpdateW2()
     {
-        wages.text = MoneyManager.manager.grossMoney.ToString();
-        fedTax.text = (MoneyManager.manager.grossMoney * 0.37f).ToString();
+        float money = MoneyManager.manager.grossMoney;
+        float darkMoney = MoneyManager.manager.darkMoney;
 
-        socWages.text = MoneyManager.manager.grossMoney.ToString();
-        socTax.text = (MoneyManager.manager.grossMoney * 0.062f).ToString();
+        CalculateErrorChance();
 
-        medWages.text = MoneyManager.manager.grossMoney.ToString();
-        medTax.text = (MoneyManager.manager.grossMoney * 0.0145f).ToString();
+        wages.text = (money + darkMoney).ToString("#0");
+        if (fraudDetected) 
+        { 
+            fedTax.text = (money * taxPercentage).ToString("#0");
+            Debug.Log("Fraud Detected");
+        }
+        else 
+        { 
+            fedTax.text = ((money + darkMoney) * taxPercentage).ToString("#0");
+        }
+
+        socWages.text = money.ToString();
+        socTax.text = (money * 0.062f).ToString();
+
+        medWages.text = money.ToString();
+        medTax.text = (money * 0.0145f).ToString();
+    }
+
+    public void CalculateErrorChance()
+    {
+        float rand = Random.value;
+
+        if (rand < BillManager.manager.blackMarketTimesBought * 0.28f)
+        {
+            fraudDetected = true;
+            GameEvents.instance.FraudDetected();
+        }
+        Debug.Log(BillManager.manager.blackMarketTimesBought * 0.28f);
+        Debug.Log(rand);
     }
 }

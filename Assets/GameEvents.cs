@@ -39,4 +39,13 @@ public class GameEvents : MonoBehaviour
             OnTaxMenuOpened();
         }
     }
+
+    public event Action OnFraudDetected;
+    public void FraudDetected()
+    {
+        if (OnFraudDetected != null)
+        {
+            OnFraudDetected();
+        }
+    }
 }

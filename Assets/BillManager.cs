@@ -10,8 +10,12 @@ public class BillManager : MonoBehaviour
     public Dictionary<int, int> bills = new Dictionary<int, int>();
     public Dictionary<int, int> upgradeCost = new Dictionary<int, int>();
     public int currentBill = 1;
-    public int cost = 25;
+    public int cost = 0;
     public Text upgradeText;
+
+    public float blackMarketCost = 100000;
+    public int blackMarketTimesBought = 0;
+    public Text blackMarketText;
 
     // Start is called before the first frame update
     void Start()
@@ -55,25 +59,22 @@ public class BillManager : MonoBehaviour
 
     public void BuyBlackMarket()
     {
-        if (!MoneyManager.manager.blackMarketPurchased)
+        if (MoneyManager.manager.money >= blackMarketCost)
         {
-            if (MoneyManager.manager.money >= 100000)
-            {
-                AddDarkMoney((MoneyManager.manager.money - 100000) * 2);
+            AddDarkMoney((MoneyManager.manager.money - blackMarketCost) * 2);
 
-                MoneyManager.manager.blackMarketPurchased = true;
-                MoneyManager.manager.money -= 100000;
+            MoneyManager.manager.blackMarketPurchased = true;
+            MoneyManager.manager.money -= blackMarketCost;
 
-                Debug.Log("Black Market Investments purchased.");
-            }
-            else
-            {
-                Debug.Log("Not enough money!");
-            }
+            blackMarketCost *= 10.0f;
+            blackMarketTimesBought++;
+            blackMarketText.text = "Black Market Investments (triples liquid assets) - $" + blackMarketCost.ToString("n0");
+
+            Debug.Log("Black Market Investments purchased.");
         }
         else
         {
-            Debug.Log("Already purchased Black Market Investments!");
+            Debug.Log("Not enough money!");
         }
     }
 
@@ -105,7 +106,6 @@ public class BillManager : MonoBehaviour
         bills.Add(9, 1000);
         bills.Add(10, 5000);
         bills.Add(11, 10000);
-
         // Only for tax day
         bills.Add(12, 0);
 

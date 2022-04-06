@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MundyLerp : MonoBehaviour
 {
+    public W2Handler w2;
+
     public float smooth;
 
     Vector3 startPos;
@@ -13,6 +15,8 @@ public class MundyLerp : MonoBehaviour
 
     void Start()
     {
+        w2 = GetComponentInParent<W2Handler>();
+
         midPos = new Vector3(transform.position.x, Screen.height / 3 - Screen.height / 6, 0.0f);
         startPos = transform.position;
     }
@@ -20,7 +24,7 @@ public class MundyLerp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (mundyMove)
+        if (w2.fraudDetected)
         {
             transform.position = Vector3.Lerp(transform.position, midPos, Time.deltaTime * smooth);
         }

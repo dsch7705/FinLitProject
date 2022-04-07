@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class W2Handler : MonoBehaviour
 {
 
+    public static W2Handler instance;
+
     public Text wages;
     public Text fedTax;
     public Text socWages;
@@ -17,8 +19,11 @@ public class W2Handler : MonoBehaviour
 
     public bool fraudDetected = false;
 
+    public GameObject goodWinScreen;
+
     void Start()
     {
+        instance = this;
         GameEvents.instance.OnTaxMenuOpened += UpdateW2;
     }
 
@@ -63,6 +68,36 @@ public class W2Handler : MonoBehaviour
         }
     }
 
+    public float GenerateTaxBracket(int i)
+    {
+        float tax = 0;
+        switch(i)
+        {
+            case 1:
+                tax = 0.10f;
+                break;
+            case 2:
+                tax = 0.12f;
+                break;
+            case 3:
+                tax = 0.22f;
+                break;
+            case 4:
+                tax = 0.24f;
+                break;
+            case 5:
+                tax = 0.32f;
+                break;
+            case 6:
+                tax = 0.35f;
+                break;
+            case 7:
+                tax = 0.37f;
+                break;
+        }
+        return tax;
+    }
+
     public void UpdateW2()
     {
         float money = MoneyManager.manager.grossMoney;
@@ -79,13 +114,14 @@ public class W2Handler : MonoBehaviour
         else 
         { 
             fedTax.text = ((money + darkMoney) * taxPercentage).ToString("#0");
+            goodWinScreen.SetActive(true);
         }
 
-        socWages.text = money.ToString();
-        socTax.text = (money * 0.062f).ToString();
+        socWages.text = (money + darkMoney).ToString("#0");
+        socTax.text = ((money + darkMoney) * 0.062f).ToString("#0");
 
-        medWages.text = money.ToString();
-        medTax.text = (money * 0.0145f).ToString();
+        medWages.text = (money + darkMoney).ToString("#0");
+        medTax.text = ((money + darkMoney) * 0.0145f).ToString("#0");
     }
 
     public void CalculateErrorChance()

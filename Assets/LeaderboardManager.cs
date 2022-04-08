@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using LootLocker.Requests;
 using UnityEngine;
 using UnityEngine.UI;
-
+/*
 public class LeaderboardManager : MonoBehaviour
 {
     public Text[] entries;
@@ -70,3 +69,4 @@ public class LeaderboardManager : MonoBehaviour
     }
 }
 
+*/

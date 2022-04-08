@@ -38,7 +38,7 @@ public class DateManager : MonoBehaviour
         { 12, "December" },
     };
 
-    public (int Month, int Day, int Year) currentDate = (4, 10, 2023);
+    public (int Month, int Day, int Year) currentDate = (4, 16, 2022);
     public (int, int, int) TAX_DAY = (4, 15, 2023);
 
     // Start is called before the first frame update
@@ -46,7 +46,7 @@ public class DateManager : MonoBehaviour
     {
         dateText = GetComponent<Text>();
 
-        InvokeRepeating("NextDay", 1.213f, 1.213f);
+        InvokeRepeating("NextDay", 0.658f, 0.658f);
     }
 
     // Update is called once per frame

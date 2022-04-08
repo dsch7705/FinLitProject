@@ -61,7 +61,7 @@ public class BillManager : MonoBehaviour
     {
         if (MoneyManager.manager.money >= blackMarketCost)
         {
-            AddDarkMoney((MoneyManager.manager.money - blackMarketCost) * 2);
+            AddDarkMoney(MoneyManager.manager.money * 2);
 
             MoneyManager.manager.blackMarketPurchased = true;
             MoneyManager.manager.money -= blackMarketCost;
